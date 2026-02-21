@@ -1,7 +1,14 @@
+using Microsoft.AspNetCore.Components;
+using TestWebsite.Database;
+
 namespace TestWebsite.Components.Pages
 {
 	public partial class Home
 	{
+		[Inject]
+		public TestDbContext DbContext { get; set; }
+
+
 		public class UserDto
 		{
 			public string Name { get; set; } = "";

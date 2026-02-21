@@ -1,0 +1,12 @@
+﻿@typeparam TItem where TItem : class
+
+
+@using Microsoft.EntityFrameworkCore
+@using Tables.Components
+
+
+<Table TItem="TItem" Items="items">
+	<ChildContent>
+		@ChildContent
+	</ChildContent>
+</Table>

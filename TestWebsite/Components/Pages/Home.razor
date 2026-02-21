@@ -1,10 +1,11 @@
 ﻿@page "/"
 
-
+@using EFTables.Components
 @using Radzen
 @using Radzen.Blazor
 @using Tables
 @using Tables.Components
+@using TestWebsite.Database
 
 
 <PageTitle>Test</PageTitle>
@@ -24,6 +25,23 @@
 		</span>
 	</Column>
 </Table>
+
+<EFTable Query="@DbContext.Users">
+	<Column Title="Name" Field="u => u.Name" />
+
+	<Column Title="Email" Field="u => u.Email" />
+
+	<Column Title="Created">
+		@context.Created.ToString("yyyy-MM-dd")
+	</Column>
+
+	<Column Title="Status">
+		<span class="badge @(context.Active ? "bg-success" : "bg-secondary")">
+			@(context.Active ? "Active" : "Inactive")
+		</span>
+	</Column>
+</EFTable>
+
 
 
 <RadzenDataGrid Data="@users" TItem="UserDto" Style="width:400px">
