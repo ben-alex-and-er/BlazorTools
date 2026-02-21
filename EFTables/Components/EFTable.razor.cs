@@ -18,17 +18,45 @@ namespace EFTables.Components
 		public RenderFragment? ChildContent { get; set; }
 
 
-		private IEnumerable<TItem> items = [];
+		// Pagination
+		[Parameter]
+		public int Page { get; set; } = 1;
+
+		[Parameter]
+		public int PageSize { get; set; } = int.MaxValue;
+
+		public int TotalCount { get; private set; }
+		public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+
+
+		private IQueryable<TItem> newQuery;
 
 
 		protected override async Task OnParametersSetAsync()
 		{
-			var query = Query;
+			await LoadData();
+		}
 
+
+		private async Task LoadData()
+		{
 			if (ReadOnly)
-				query = query.AsNoTracking();
+				newQuery = Query.AsNoTracking();
 
-			items = query.AsEnumerable();
+			// Pagination
+			TotalCount = await newQuery.CountAsync();
+
+			newQuery = newQuery.Skip((Page - 1) * PageSize).Take(PageSize);
+		}
+
+		private async Task SetPage(int newPage)
+		{
+			if (newPage < 1 || newPage > TotalPages)
+				return;
+
+			Page = newPage;
+			await LoadData();
+			StateHasChanged();
 		}
 	}
 }

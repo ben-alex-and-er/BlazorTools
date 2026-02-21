@@ -10,13 +10,13 @@ namespace Tables.Components
 		public IQueryable<TItem>? Query { get; set; }
 
 		[Parameter]
-		public IEnumerable<TItem>? Items { get; set; }
+		public IEnumerable<TItem> Items { get; set; } = [];
 
 		[Parameter]
 		public RenderFragment? ChildContent { get; set; }
 
 
-		internal List<Column<TItem>> _columns = new();
+		private List<Column<TItem>> columns = new();
 
 
 		protected override async Task OnParametersSetAsync()
@@ -29,7 +29,7 @@ namespace Tables.Components
 
 		internal void RegisterColumn(Column<TItem> column)
 		{
-			_columns.Add(column);
+			columns.Add(column);
 
 			StateHasChanged();
 		}

@@ -4,7 +4,7 @@
 	<table class="bt-table">
 		<thead>
 			<tr>
-				@foreach (var column in _columns)
+				@foreach (var column in columns)
 				{
 					<th>
 						<div class="header">
@@ -16,19 +16,16 @@
 		</thead>
 
 		<tbody>
-			@if (Items is not null)
+			@foreach (var item in Items)
 			{
-				@foreach (var item in Items)
-				{
-					<tr @key="item">
-						@foreach (var column in _columns)
-						{
-							<td>
-								@column.RenderCell(item)
-							</td>
-						}
-					</tr>
-				}
+				<tr @key="item">
+					@foreach (var column in columns)
+					{
+						<td>
+							@column.RenderCell(item)
+						</td>
+					}
+				</tr>
 			}
 		</tbody>
 	</table>

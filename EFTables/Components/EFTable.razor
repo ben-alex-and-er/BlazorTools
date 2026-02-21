@@ -5,8 +5,25 @@
 @using Tables.Components
 
 
-<Table TItem="TItem" Items="items">
+<Table TItem="TItem" Items="newQuery">
 	<ChildContent>
 		@ChildContent
 	</ChildContent>
 </Table>
+
+@if (TotalPages > 1)
+{
+	<div class="bt-ef-pagination">
+		<button @onclick="async () => await SetPage(Page - 1)" disabled="@(Page <= 1)">
+			&#60;
+		</button>
+
+		<span>Page @Page of @TotalPages</span>
+
+		<button @onclick="async () => await SetPage(Page + 1)" disabled="@(Page >= TotalPages)">
+			&#62;
+		</button>
+
+		<span>(@TotalCount items)</span>
+	</div>
+}

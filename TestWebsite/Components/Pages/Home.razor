@@ -1,4 +1,6 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+
 
 @using EFTables.Components
 @using Radzen
@@ -26,7 +28,7 @@
 	</Column>
 </Table>
 
-<EFTable Query="@DbContext.Users">
+<EFTable Query="@DbContext.Users" PageSize="10">
 	<Column Title="Name" Field="u => u.Name" />
 
 	<Column Title="Email" Field="u => u.Email" />
@@ -52,4 +54,3 @@
 		<RadzenDataGridColumn Property="@nameof(UserDto.Active)" Title="Active" />
 	</Columns>
 </RadzenDataGrid>
-

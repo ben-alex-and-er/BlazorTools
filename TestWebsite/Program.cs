@@ -21,13 +21,21 @@ using (var scope = app.Services.CreateScope())
 	var db = scope.ServiceProvider.GetRequiredService<TestDbContext>();
 	db.Database.EnsureCreated();
 
+	//db.Users.ExecuteDelete();
+
 	if (!db.Users.Any())
 	{
-		db.Users.AddRange(
-			new User { Name = "Alice", Email = "alice@test.com", Created = DateTime.UtcNow.AddDays(-5), Active = true },
-			new User { Name = "Bob", Email = "bob@test.com", Created = DateTime.UtcNow.AddDays(-10), Active = false },
-			new User { Name = "Charlie", Email = "charlie@test.com", Created = DateTime.UtcNow.AddDays(-1), Active = true }
-		);
+		var rng = new Random();
+
+		var users = Enumerable.Range(1, 100000).Select(i => new User
+		{
+			Name = $"User {i}",
+			Email = $"user{i}@example.com",
+			Created = DateTime.UtcNow.AddDays(-rng.Next(0, 365)),
+			Active = rng.NextDouble() > 0.3
+		});
+
+		db.Users.AddRange(users);
 
 		db.SaveChanges();
 	}
