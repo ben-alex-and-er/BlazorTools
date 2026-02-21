@@ -1,0 +1,15 @@
+﻿.bt-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+	.bt-table th {
+		text-align: left;
+		border-bottom: 2px solid #ddd;
+		padding: 8px;
+	}
+
+	.bt-table td {
+		border-bottom: 1px solid #eee;
+		padding: 8px;
+	}

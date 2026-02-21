@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Tables/Tables.csproj" />
+  <Project Path="TestWebsite/TestWebsite.csproj" />
+</Solution>

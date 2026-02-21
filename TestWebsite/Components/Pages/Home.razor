@@ -1,0 +1,37 @@
+﻿@page "/"
+
+
+@using Radzen
+@using Radzen.Blazor
+@using Tables
+@using Tables.Components
+
+
+<PageTitle>Test</PageTitle>
+
+<Table Items="users" TItem="UserDto">
+	<Column TItem="UserDto" Title="Name" Field="u => u.Name" />
+
+	<Column TItem="UserDto" Title="Email" Field="u => u.Email" />
+
+	<Column TItem="UserDto" Title="Created">
+		@context.Created.ToString("yyyy-MM-dd")
+	</Column>
+
+	<Column TItem="UserDto" Title="Status">
+		<span class="badge @(context.Active ? "bg-success" : "bg-secondary")">
+			@(context.Active ? "Active" : "Inactive")
+		</span>
+	</Column>
+</Table>
+
+
+<RadzenDataGrid Data="@users" TItem="UserDto" Style="width:400px">
+	<Columns>
+		<RadzenDataGridColumn Property="@nameof(UserDto.Name)" Title="Name" />
+		<RadzenDataGridColumn Property="@nameof(UserDto.Email)" Title="Email" />
+		<RadzenDataGridColumn Property="@nameof(UserDto.Created)" Title="Created" />
+		<RadzenDataGridColumn Property="@nameof(UserDto.Active)" Title="Active" />
+	</Columns>
+</RadzenDataGrid>
+
