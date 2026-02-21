@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
 
 
 namespace Tables.Components
 {
 	[CascadingTypeParameter(nameof(TItem))]
-	public partial class Table<TItem>
+	public partial class Table<TItem> : ComponentBase
 	{
-		[Parameter]
-		public IQueryable<TItem>? Query { get; set; }
-
 		[Parameter]
 		public IEnumerable<TItem> Items { get; set; } = [];
 
@@ -16,22 +14,13 @@ namespace Tables.Components
 		public RenderFragment? ChildContent { get; set; }
 
 
-		private List<Column<TItem>> columns = new();
-
-
-		protected override async Task OnParametersSetAsync()
+		private void OnSort((Expression<Func<TItem, object?>>, bool) obj)
 		{
-			if (Query is not null)
-			{
-				Items = Query.AsEnumerable();
-			}
-		}
+			var (field, descending) = obj;
 
-		internal void RegisterColumn(Column<TItem> column)
-		{
-			columns.Add(column);
-
-			StateHasChanged();
+			Items = descending
+				? Items.OrderByDescending(field.Compile())
+				: Items.OrderBy(field.Compile());
 		}
 	}
 }

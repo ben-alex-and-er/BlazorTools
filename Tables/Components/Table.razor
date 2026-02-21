@@ -1,34 +1,7 @@
 ﻿@typeparam TItem
 
-<CascadingValue Value="this">
-	<table class="bt-table">
-		<thead>
-			<tr>
-				@foreach (var column in columns)
-				{
-					<th>
-						<div class="header">
-							<span>@column.Title</span>
-						</div>
-					</th>
-				}
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach (var item in Items)
-			{
-				<tr @key="item">
-					@foreach (var column in columns)
-					{
-						<td>
-							@column.RenderCell(item)
-						</td>
-					}
-				</tr>
-			}
-		</tbody>
-	</table>
-
-	@ChildContent
-</CascadingValue>
+<BaseTable TItem="TItem" Items="Items" OnSort="OnSort">
+	<ChildContent>
+		@ChildContent
+	</ChildContent>
+</BaseTable>

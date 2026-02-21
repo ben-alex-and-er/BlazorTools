@@ -13,9 +13,9 @@
 <PageTitle>Test</PageTitle>
 
 <Table Items="users" TItem="UserDto">
-	<Column TItem="UserDto" Title="Name" Field="u => u.Name" />
+	<Column TItem="UserDto" Title="Name" Field="u => u.Name" Sortable="true" />
 
-	<Column TItem="UserDto" Title="Email" Field="u => u.Email" />
+	<Column TItem="UserDto" Title="Email" Field="u => u.Email" Sortable="true" />
 
 	<Column TItem="UserDto" Title="Created">
 		@context.Created.ToString("yyyy-MM-dd")
@@ -29,7 +29,7 @@
 </Table>
 
 <EFTable Query="@DbContext.Users" PageSize="10">
-	<Column Title="Name" Field="u => u.Name" />
+	<Column Title="Name" Field="u => u.Name" Sortable="true"/>
 
 	<Column Title="Email" Field="u => u.Email" />
 

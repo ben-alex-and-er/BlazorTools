@@ -1,1 +1,13 @@
 ﻿@typeparam TItem
+
+<th @onclick="Sortable ? OnHeaderClick : null" style="cursor:@(Sortable ? "pointer" : "default")">
+	<div class="header">
+		<span>@Title</span>
+		@if (Sortable)
+		{
+			<span>
+				@(IsSorted ? (IsDescending ? " 🔽" : " 🔼") : "")
+			</span>
+		}
+	</div>
+</th>

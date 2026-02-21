@@ -5,11 +5,11 @@
 @using Tables.Components
 
 
-<Table TItem="TItem" Items="newQuery">
+<BaseTable TItem="TItem" Items="newQuery" OnSort="OnSort">
 	<ChildContent>
 		@ChildContent
 	</ChildContent>
-</Table>
+</BaseTable>
 
 @if (TotalPages > 1)
 {

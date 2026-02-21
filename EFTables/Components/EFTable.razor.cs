@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 
 namespace EFTables.Components
 {
 	[CascadingTypeParameter(nameof(TItem))]
-	public partial class EFTable<TItem>
+	public partial class EFTable<TItem> : ComponentBase
 	{
 		[EditorRequired]
 		[Parameter]
@@ -34,19 +35,22 @@ namespace EFTables.Components
 
 		protected override async Task OnParametersSetAsync()
 		{
-			await LoadData();
+			await LoadData(Query);
 		}
 
 
-		private async Task LoadData()
+		private async Task LoadData(IQueryable<TItem> query)
 		{
-			if (ReadOnly)
-				newQuery = Query.AsNoTracking();
+			newQuery = ReadOnly
+				? query.AsNoTracking()
+				: query;
 
 			// Pagination
 			TotalCount = await newQuery.CountAsync();
 
 			newQuery = newQuery.Skip((Page - 1) * PageSize).Take(PageSize);
+
+			await InvokeAsync(StateHasChanged);
 		}
 
 		private async Task SetPage(int newPage)
@@ -55,8 +59,18 @@ namespace EFTables.Components
 				return;
 
 			Page = newPage;
-			await LoadData();
-			StateHasChanged();
+			await LoadData(Query);
+		}
+
+		private async Task OnSort((Expression<Func<TItem, object?>>, bool) obj)
+		{
+			var (field, descending) = obj;
+
+			var query = descending
+				? Query.OrderByDescending(field)
+				: Query.OrderBy(field);
+
+			await LoadData(query);
 		}
 	}
 }
