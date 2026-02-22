@@ -31,6 +31,7 @@ namespace EFTables.Components
 
 
 		private IQueryable<TItem> newQuery;
+		private IQueryable<TItem>? sortedQuery;
 
 
 		protected override async Task OnParametersSetAsync()
@@ -59,18 +60,18 @@ namespace EFTables.Components
 				return;
 
 			Page = newPage;
-			await LoadData(Query);
+			await LoadData(sortedQuery ?? Query);
 		}
 
 		private async Task OnSort((Expression<Func<TItem, object?>>, bool) obj)
 		{
 			var (field, descending) = obj;
 
-			var query = descending
+			sortedQuery = descending
 				? Query.OrderByDescending(field)
 				: Query.OrderBy(field);
 
-			await LoadData(query);
+			await SetPage(1);
 		}
 	}
 }

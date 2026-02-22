@@ -31,11 +31,9 @@
 <EFTable Query="@DbContext.Users" PageSize="10">
 	<Column Title="Name" Field="u => u.Name" Sortable="true"/>
 
-	<Column Title="Email" Field="u => u.Email" />
+	<Column Title="Email" Field="u => u.Email" Sortable="true" />
 
-	<Column Title="Created">
-		@context.Created.ToString("yyyy-MM-dd")
-	</Column>
+	<Column Title="Created" Field="u => u.Created" />
 
 	<Column Title="Status">
 		<span class="badge @(context.Active ? "bg-success" : "bg-secondary")">
