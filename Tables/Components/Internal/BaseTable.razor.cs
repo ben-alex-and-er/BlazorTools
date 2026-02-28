@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 
 
-namespace Tables.Components
+namespace Tables.Components.Internal
 {
 	[CascadingTypeParameter(nameof(TItem))]
 	public partial class BaseTable<TItem>
