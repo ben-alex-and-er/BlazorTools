@@ -19,20 +19,19 @@ namespace Tables.Components.Internal
 
 		[EditorRequired]
 		[Parameter]
-		public EventCallback<Expression<Func<TItem, bool>>> OnFilter { get; set; }
+		public EventCallback<IEnumerable<Expression<Func<TItem, bool>>?>> OnFilter { get; set; }
 
-
-		private readonly List<Column<TItem>> columns = [];
 
 		public string? SortColumn { get; private set; }
 		public bool SortDescending { get; private set; }
 
-		internal event Func<string, bool, Task>? OnSortChanged;
+
+		private readonly Dictionary<Column<TItem>, Expression<Func<TItem, bool>>?> columnExpressions = [];
 
 
 		internal void RegisterColumn(Column<TItem> column)
 		{
-			columns.Add(column);
+			columnExpressions.Add(column, null);
 
 			StateHasChanged();
 		}
@@ -45,7 +44,21 @@ namespace Tables.Components.Internal
 			SortDescending = descending;
 			SortColumn = title;
 
-			StateHasChanged();
+			await InvokeAsync(StateHasChanged);
+		}
+
+		internal async Task NotifyFilterChanged(Column<TItem> column, Expression<Func<TItem, bool>> expression)
+		{
+			if (!columnExpressions.TryAdd(column, expression))
+			{
+				columnExpressions[column] = expression;
+			}
+
+			var expressions = columnExpressions.Values;
+
+			await OnFilter.InvokeAsync(expressions);
+
+			await InvokeAsync(StateHasChanged);
 		}
 	}
 }

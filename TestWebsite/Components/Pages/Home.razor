@@ -12,16 +12,14 @@
 
 <PageTitle>Test</PageTitle>
 
-<Table Items="users" TItem="UserDto">
-	<Column TItem="UserDto" Title="Name" Field="u => u.Name" Sortable="true" />
+<Table Items="users">
+	<Column Title="Name" Field="u => u.Name" Sortable="true" />
 
-	<Column TItem="UserDto" Title="Email" Field="u => u.Email" Sortable="true" />
+	<Column Title="Email" Field="u => u.Email" Sortable="true" />
 
-	<Column TItem="UserDto" Title="Created">
-		@context.Created.ToString("yyyy-MM-dd")
-	</Column>
+	<Column Title="Created" Field="u => u.Created" Sortable="true" />
 
-	<Column TItem="UserDto" Title="Status">
+	<Column Title="Status" Field="u => u.Active" Sortable="true">
 		<span class="badge @(context.Active ? "bg-success" : "bg-secondary")">
 			@(context.Active ? "Active" : "Inactive")
 		</span>
@@ -29,13 +27,13 @@
 </Table>
 
 <EFTable Query="@DbContext.Users" PageSize="10">
-	<Column Title="Name" Field="u => u.Name" Sortable="true"/>
+	<Column Title="Name" Field="u => u.Name" Sortable="true" Filterable="true" />
 
-	<Column Title="Email" Field="u => u.Email" Sortable="true" />
+	<Column Title="Email" Field="u => u.Email" Sortable="true" Filterable="true" />
 
-	<Column Title="Created" Field="u => u.Created" />
+	<Column Title="Created" Field="u => u.Created" Sortable="true" />
 
-	<Column Title="Status">
+	<Column Title="Status" Field="u => u.Active" Sortable="true">
 		<span class="badge @(context.Active ? "bg-success" : "bg-secondary")">
 			@(context.Active ? "Active" : "Inactive")
 		</span>
@@ -44,7 +42,7 @@
 
 
 
-<RadzenDataGrid Data="@users" TItem="UserDto" Style="width:400px">
+<RadzenDataGrid Data="@users" TItem="UserDto">
 	<Columns>
 		<RadzenDataGridColumn Property="@nameof(UserDto.Name)" Title="Name" />
 		<RadzenDataGridColumn Property="@nameof(UserDto.Email)" Title="Email" />

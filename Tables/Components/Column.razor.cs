@@ -105,7 +105,7 @@ namespace Tables.Components
 
 			var filterExpression = ExpressionHelper.OnFilter<Func<TItem, bool>>(Field.Body, Field.Parameters[0], filter, filterType);
 
-			await Table.OnFilter.InvokeAsync(filterExpression);
+			await Table.NotifyFilterChanged(this, filterExpression);
 		}
 	}
 }

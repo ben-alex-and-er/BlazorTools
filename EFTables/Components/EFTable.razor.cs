@@ -32,7 +32,7 @@ namespace EFTables.Components
 			: (int)Math.Ceiling((double)TotalCount / PageSize);
 
 		private IQueryable<TItem> newQuery = Enumerable.Empty<TItem>().AsQueryable();
-		private Expression<Func<TItem, bool>>? currentFilter;
+		private IEnumerable<Expression<Func<TItem, bool>>?> currentFilters = [];
 		private Expression<Func<TItem, object?>>? currentSort;
 		private bool currentSortDescending;
 
@@ -50,8 +50,13 @@ namespace EFTables.Components
 				: Query;
 
 			// Filter
-			if (currentFilter != null)
-				query = query.Where(currentFilter);
+			foreach(var filter in currentFilters)
+			{
+				if (filter != null)
+				{
+					query = query.Where(filter);
+				}
+			}
 
 			// Sort
 			if (currentSort != null)
@@ -85,9 +90,9 @@ namespace EFTables.Components
 			await SetPage(1);
 		}
 
-		private async Task OnFilter(Expression<Func<TItem, bool>> expression)
+		private async Task OnFilter(IEnumerable<Expression<Func<TItem, bool>>?> expressions)
 		{
-			currentFilter = expression;
+			currentFilters = expressions;
 			await SetPage(1);
 		}
 	}
