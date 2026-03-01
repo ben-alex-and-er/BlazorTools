@@ -19,10 +19,16 @@ namespace TestWebsite.Components.Pages
 
 		private List<UserDto> users;
 
+		private IEnumerable<User> dbUsers;
+
 
 		protected override void OnInitialized()
 		{
 			users = GenerateUsers();
+
+			dbUsers = DbContext.Users;
+
+			StateHasChanged();
 		}
 
 
@@ -30,7 +36,7 @@ namespace TestWebsite.Components.Pages
 		{
 			var rng = new Random();
 
-			var users = Enumerable.Range(1, 10).Select(i => new UserDto
+			var users = Enumerable.Range(1, 100).Select(i => new UserDto
 			{
 				Name = $"User {i}",
 				Email = $"user{i}@example.com",

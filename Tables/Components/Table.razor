@@ -4,8 +4,25 @@
 @using Tables.Components.Internal
 
 
-<BaseTable TItem="TItem" Items="Items" OnSort="OnSort">
+<BaseTable TItem="TItem" Items="newItems" OnSort="OnSort" OnFilter="OnFilter">
 	<ChildContent>
 		@ChildContent
 	</ChildContent>
 </BaseTable>
+
+@if (TotalPages > 1)
+{
+	<div class="bt-pagination">
+		<button @onclick="() => SetPage(Page - 1)" disabled="@(Page <= 1)">
+			&#60;
+		</button>
+
+		<span>Page @Page of @TotalPages</span>
+
+		<button @onclick="() => SetPage(Page + 1)" disabled="@(Page >= TotalPages)">
+			&#62;
+		</button>
+
+		<span>(@TotalCount items)</span>
+	</div>
+}

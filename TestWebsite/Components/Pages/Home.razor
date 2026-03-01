@@ -12,10 +12,10 @@
 
 <PageTitle>Test</PageTitle>
 
-<Table Items="users">
-	<Column Title="Name" Field="u => u.Name" Sortable="true" />
+<Table Items="dbUsers" PageSize="10">
+	<Column Title="Name" Field="u => u.Name" Sortable="true" Filterable="true" />
 
-	<Column Title="Email" Field="u => u.Email" Sortable="true" />
+	<Column Title="Email" Field="u => u.Email" Sortable="true" Filterable="true" />
 
 	<Column Title="Created" Field="u => u.Created" Sortable="true" />
 
