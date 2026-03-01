@@ -17,6 +17,10 @@ namespace Tables.Components.Internal
 		[Parameter]
 		public EventCallback<(Expression<Func<TItem, object?>>, bool)> OnSort { get; set; }
 
+		[EditorRequired]
+		[Parameter]
+		public EventCallback<Expression<Func<TItem, bool>>> OnFilter { get; set; }
+
 
 		private readonly List<Column<TItem>> columns = [];
 

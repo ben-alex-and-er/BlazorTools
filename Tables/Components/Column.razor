@@ -1,7 +1,12 @@
-﻿@typeparam TItem
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Tables.Data.Enums
 
-<th @onclick="Sortable ? OnHeaderClick : null" style="cursor:@(Sortable ? "pointer" : "default")">
-	<div class="header">
+
+@typeparam TItem
+
+
+<th>
+	<div class="header" @onclick="Sortable ? OnSortClick : null" style="cursor:@(Sortable ? "pointer" : "default")">
 		<span>@Title</span>
 		@if (Sortable)
 		{
@@ -10,4 +15,19 @@
 			</span>
 		}
 	</div>
+
+	@if (Filterable)
+	{
+		<input type="text" @oninput="OnInputAsync" />
+
+		<InputSelect TValue="FilterType"
+					 Value="filterType"
+					 ValueChanged="OnFilterTypeChanged"
+					 ValueExpression="() => filterType">
+			@foreach (var value in Enum.GetValues<FilterType>())
+			{
+				<option value="@value">@value.GetLabel()</option>
+			}
+		</InputSelect>
+	}
 </th>

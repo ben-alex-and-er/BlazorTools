@@ -27,29 +27,45 @@ namespace EFTables.Components
 		public int PageSize { get; set; } = int.MaxValue;
 
 		public int TotalCount { get; private set; }
-		public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+		public int TotalPages => TotalCount == 0
+			? 1
+			: (int)Math.Ceiling((double)TotalCount / PageSize);
 
-
-		private IQueryable<TItem> newQuery;
-		private IQueryable<TItem>? sortedQuery;
+		private IQueryable<TItem> newQuery = Enumerable.Empty<TItem>().AsQueryable();
+		private Expression<Func<TItem, bool>>? currentFilter;
+		private Expression<Func<TItem, object?>>? currentSort;
+		private bool currentSortDescending;
 
 
 		protected override async Task OnParametersSetAsync()
 		{
-			await LoadData(Query);
+			await LoadData();
 		}
 
 
-		private async Task LoadData(IQueryable<TItem> query)
+		private async Task LoadData()
 		{
-			newQuery = ReadOnly
-				? query.AsNoTracking()
-				: query;
+			var query = ReadOnly
+				? Query.AsNoTracking()
+				: Query;
 
-			// Pagination
-			TotalCount = await newQuery.CountAsync();
+			// Filter
+			if (currentFilter != null)
+				query = query.Where(currentFilter);
 
-			newQuery = newQuery.Skip((Page - 1) * PageSize).Take(PageSize);
+			// Sort
+			if (currentSort != null)
+				query = currentSortDescending
+					? query.OrderByDescending(currentSort)
+					: query.OrderBy(currentSort);
+
+			// Count
+			TotalCount = await query.CountAsync();
+
+			// Paginate
+			newQuery = query
+				.Skip((Page - 1) * PageSize)
+				.Take(PageSize);
 
 			await InvokeAsync(StateHasChanged);
 		}
@@ -60,17 +76,18 @@ namespace EFTables.Components
 				return;
 
 			Page = newPage;
-			await LoadData(sortedQuery ?? Query);
+			await LoadData();
 		}
 
 		private async Task OnSort((Expression<Func<TItem, object?>>, bool) obj)
 		{
-			var (field, descending) = obj;
+			(currentSort, currentSortDescending) = obj;
+			await SetPage(1);
+		}
 
-			sortedQuery = descending
-				? Query.OrderByDescending(field)
-				: Query.OrderBy(field);
-
+		private async Task OnFilter(Expression<Func<TItem, bool>> expression)
+		{
+			currentFilter = expression;
 			await SetPage(1);
 		}
 	}
