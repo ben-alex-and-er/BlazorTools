@@ -5,29 +5,39 @@
 @typeparam TItem
 
 
-<th>
-	<div class="header" @onclick="Sortable ? OnSortClick : null" style="cursor:@(Sortable ? "pointer" : "default")">
-		<span>@Title</span>
+<th class="bt-header-cell">
+	<div class="bt-header-top"
+		 @onclick="Sortable? OnSortClick : null"
+		 style="cursor:@(Sortable ? "pointer" : "default")">
+
+		<span class="bt-header-title">@Title</span>
+
 		@if (Sortable)
 		{
-			<span>
-				@(IsSorted ? (IsDescending ? " ↓" : " ↑") : "")
+			<span class="bt-sort-indicator">
+				@(IsSorted ? (IsDescending ? "▼" : "▲") : "⇅")
 			</span>
 		}
 	</div>
 
 	@if (Filterable)
 	{
-		<input type="text" @oninput="OnInputAsync" />
+		<div class="bt-header-filters">
+			<input class="bt-filter-input"
+				   type="text"
+				   placeholder="Filter…"
+				   @oninput="OnInputAsync" />
 
-		<InputSelect TValue="FilterType"
-					 Value="filterType"
-					 ValueChanged="OnFilterTypeChanged"
-					 ValueExpression="() => filterType">
-			@foreach (var value in Enum.GetValues<FilterType>())
-			{
-				<option value="@value">@value.GetLabel()</option>
-			}
-		</InputSelect>
+			<InputSelect class="bt-filter-select"
+						 TValue="FilterType"
+						 Value="filterType"
+						 ValueChanged="OnFilterTypeChanged"
+						 ValueExpression="() => filterType">
+				@foreach (var value in Enum.GetValues<FilterType>())
+				{
+					<option value="@value">@value.GetLabel()</option>
+				}
+			</InputSelect>
+		</div>
 	}
 </th>

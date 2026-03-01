@@ -1,0 +1,64 @@
+﻿.bt-header-cell {
+	padding: 0.5rem 0.6rem;
+	vertical-align: top;
+}
+
+
+.bt-header-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.4rem;
+	font-weight: 600;
+	color: #374151;
+}
+
+.bt-header-title {
+	white-space: nowrap;
+}
+
+.bt-sort-indicator {
+	font-size: 0.75rem;
+	color: #9ca3af;
+	transition: color 0.15s ease;
+}
+
+.bt-header-top:hover .bt-sort-indicator {
+	color: #4b5563;
+}
+
+.bt-header-filters {
+	margin-top: 0.35rem;
+	display: flex;
+	gap: 0.35rem;
+}
+
+.bt-filter-input {
+	width: 100%;
+	padding: 0.3rem 0.45rem;
+	font-size: 0.8rem;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+	.bt-filter-input:focus {
+		outline: none;
+		border-color: #9ca3af;
+		box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.2);
+	}
+
+.bt-filter-select {
+	padding: 0.3rem 0.35rem;
+	font-size: 0.8rem;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	background: #fff;
+	cursor: pointer;
+}
+
+	.bt-filter-select:focus {
+		outline: none;
+		border-color: #9ca3af;
+		box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.2);
+	}

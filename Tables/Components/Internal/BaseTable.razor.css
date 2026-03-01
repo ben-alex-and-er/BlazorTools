@@ -1,15 +1,41 @@
 ﻿.bt-table {
 	width: 100%;
 	border-collapse: collapse;
+	font-size: 0.95rem;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	overflow: hidden;
 }
+
+	.bt-table thead {
+		background: #f9fafb;
+	}
 
 	.bt-table th {
 		text-align: left;
-		border-bottom: 2px solid #ddd;
-		padding: 8px;
+		padding: 0.65rem 0.75rem;
+		font-weight: 600;
+		color: #374151;
+		border-bottom: 1px solid #e5e7eb;
+		white-space: nowrap;
 	}
 
 	.bt-table td {
-		border-bottom: 1px solid #eee;
-		padding: 8px;
+		padding: 0.65rem 0.75rem;
+		border-bottom: 1px solid #f0f1f3;
+		color: #444;
+	}
+
+	.bt-table tbody tr:hover {
+		background: #f9fafb;
+	}
+
+	/* Zebra striping */
+	.bt-table tbody tr:nth-child(even) {
+		background: #fcfcfd;
+	}
+
+	.bt-table tbody tr:last-child td {
+		border-bottom: none;
 	}
