@@ -1,0 +1,13 @@
+﻿<div class="bt-pagination">
+	<button @onclick="Prev" disabled="@(Page <= 1)">
+		&#60;
+	</button>
+
+	<span>Page @Page of @TotalPages</span>
+
+	<button @onclick="Next" disabled="@(Page >= TotalPages)">
+		&#62;
+	</button>
+
+	<span>(@TotalCount items)</span>
+</div>

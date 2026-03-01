@@ -1,8 +1,8 @@
-﻿@typeparam TItem
+﻿@using Tables.Components.Internal
 
+
+@typeparam TItem
 @inherits TableBase<TItem>
-
-@using Tables.Components.Internal
 
 
 <BaseTable TItem="TItem" Items="newItems" OnSort="OnSort" OnFilter="OnFilter">
@@ -11,19 +11,11 @@
 	</ChildContent>
 </BaseTable>
 
-@if (TotalPages > 1)
+@if (PageSize < int.MaxValue)
 {
-	<div class="bt-pagination">
-		<button @onclick="async () => await SetPage(Page - 1)" disabled="@(Page <= 1)">
-			&#60;
-		</button>
-
-		<span>Page @Page of @TotalPages</span>
-
-		<button @onclick="async () => await SetPage(Page + 1)" disabled="@(Page >= TotalPages)">
-			&#62;
-		</button>
-
-		<span>(@TotalCount items)</span>
-	</div>
+	<TablePagination Page="Page"
+					 TotalPages="TotalPages"
+					 TotalCount="TotalCount"
+					 OnPrev="() => SetPage(Page - 1)"
+					 OnNext="() => SetPage(Page + 1)" />
 }
